@@ -6,7 +6,9 @@
   <meta name="description" content="Two teams. Thirty mystery questions. One unforgettable Diwali quiz night.">
   <title>The Diwali Showdown · Quiz Night</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <script src="./theme.js"></script>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./dark-mode.css">
   <script src="./questions.js" defer></script><script src="./app.js" defer></script>
 </head>
 <body>
@@ -14,7 +16,7 @@
   <header class="site-header wrap">
     <a href="./" class="brand" aria-label="The Diwali Showdown home"><span class="brand-mark" aria-hidden="true">✳</span><span>THE DIWALI<br><strong>SHOWDOWN</strong></span></a>
     <span class="header-note">GOOD COMPANY. GREAT COMPETITION.</span>
-    <nav aria-label="Host controls"><span class="host-badge"><span></span> HOST MODE</span><button id="help-btn" class="icon-btn" aria-label="How to play" title="How to play">?</button><button id="fullscreen-btn" class="icon-btn" aria-label="Enter fullscreen" title="Fullscreen">⛶</button><button id="settings-btn" class="icon-btn" aria-label="Game settings" title="Game settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M9 4v6m6 4v6"/></svg></button></nav>
+    <nav aria-label="Host controls"><span class="host-badge"><span></span> HOST MODE</span><button id="theme-btn" class="icon-btn" aria-label="Switch to light mode" aria-pressed="true" title="Switch to light mode"><svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg></button><button id="help-btn" class="icon-btn" aria-label="How to play" title="How to play">?</button><button id="fullscreen-btn" class="icon-btn" aria-label="Enter fullscreen" title="Fullscreen">⛶</button><button id="settings-btn" class="icon-btn" aria-label="Game settings" title="Game settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M9 4v6m6 4v6"/></svg></button></nav>
   </header>
   <main class="wrap">
     <section class="intro" aria-labelledby="page-title">

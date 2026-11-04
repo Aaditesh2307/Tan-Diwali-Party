@@ -1,48 +1,50 @@
-/* Host question bank. These are intentionally never previewed on the prize board.
-   Edit a prompt, answer, or note here to customize a future game. Keep IDs unique.
-   Browser-local host game: hidden during normal play, not encrypted from source inspection. */
-const VALUES = [100, 250, 500, 1000, 2000, 2500];
+/* Local host question bank, revision 5: familiar sports, cinema and festivals.
+   The Jain and Wimbledon questions are preserved. Quotes use longer excerpts,
+   with answers and background hidden until the host reveals them. */
+const QUESTION_SET = 'sports-cinema-2026-11-v5';
+const VALUES = [100,250,500,1000,2000,2500];
+const DIFFICULTIES = ["easy","easy-plus","medium","hard","very-hard","expert"];
 const CATEGORIES = [
-  {id:'geography', name:'Geography', subtitle:'A little world of wonder', icon:'globe', questions:[
-    {q:'Your friend’s entire Instagram is suddenly beaches, rice terraces and Bali. Which country are they in?', a:'Indonesia', note:'Bali is an Indonesian island.'},
-    {q:'You’re on a K-pop pilgrimage to Seoul. Which country’s capital have you landed in?', a:'South Korea', note:'Accept the Republic of Korea.'},
-    {q:'Istanbul is famously a city on two continents. Name both.', a:'Europe and Asia', note:'The Bosphorus separates the city’s European and Asian sides. Both continents are needed.'},
-    {q:'Which independent country is completely surrounded by South Africa?', a:'Lesotho', note:'Lesotho is an enclave within South Africa. Eswatini also borders Mozambique, so it does not qualify.'},
-    {q:'Point Nemo is the ocean spot farthest from any land. In which ocean would you find it?', a:'The Pacific Ocean', note:'It is in the South Pacific, about 2,688 km from the nearest land.', source:'https://oceanservice.noaa.gov/facts/nemo.html'},
-    {q:'Which island country has territory in all four hemispheres: northern, southern, eastern and western?', a:'Kiribati', note:'Its islands straddle both the Equator and the 180° meridian.', source:'https://visitkiribati.travel/wp-content/uploads/2019/05/Kiribati-Travel-Information-2019.pdf'}
+  {id:"geography", name:"Geography", subtitle:"A little world of wonder", icon:"globe", questions:[
+    {"q":"What is the capital of Japan?","a":"Tokyo","note":"Accept Tokyo."},
+    {"q":"Which country is home to the city of Marrakech?","a":"Morocco","note":"Accept Morocco. Marrakech is also spelt Marrakesh."},
+    {"q":"What is the capital of Australia?","a":"Canberra","note":"Accept Canberra."},
+    {"q":"In which city is the Yas Marina Formula 1 circuit?","a":"Abu Dhabi","note":"Accept Abu Dhabi. The circuit is on Yas Island. The city is required, rather than just the UAE.","source":"https://www.formula1.com/en/information/abu-dhabi-yas-marina-circuit-yas-island.4YtOtpaWvaxWvDBTItP7s6"},
+    {"q":"Which two countries share the world’s longest international land border?","a":"Canada and the United States","note":"Both are required. Accept USA, US or America for the United States."},
+    {"q":"Name the three South American countries through which the Equator passes.","a":"Ecuador, Colombia and Brazil","note":"All three are required. Order does not matter."}
   ]},
-  {id:'diwali', name:'Diwali & Festivals', subtitle:'Lights, legends & laddoos', icon:'diya', questions:[
-    {q:'Which goddess of wealth and prosperity is traditionally worshipped during Lakshmi Puja on Diwali?', a:'Goddess Lakshmi', note:'Accept Lakshmi or Laxmi.'},
-    {q:'In the Ramayana tradition, Diwali celebrates Rama’s return to which city after exile?', a:'Ayodhya', note:'Rama returns to Ayodhya with Sita and Lakshmana.'},
-    {q:'Which festival begins the traditional five-day Diwali celebrations and is associated with buying gold and silver?', a:'Dhanteras', note:'Also called Dhanatrayodashi.', source:'https://www.incredibleindia.gov.in/en/festivals-and-events/diwali'},
-    {q:'For Jains, Diwali marks the nirvana of which Tirthankara?', a:'Lord Mahavira', note:'Mahavira is the 24th Jain Tirthankara.', source:'https://www.indianheritage.gov.sg/en/-/media/ihc2023/education/downloadable-resources/pdf/deepavali-resources-for-primary-school-final.pdf'},
-    {q:'Bandi Chhor Divas, observed by Sikhs around Diwali, commemorates the release of which Sikh Guru from Gwalior Fort?', a:'Guru Hargobind', note:'He is the sixth Sikh Guru. Accept Guru Hargobind Sahib.', source:'https://www.incredibleindia.gov.in/en/festivals-and-events/diwali'},
-    {q:'In the North Indian Hindu calendar tradition, the main Diwali night falls on which lunar phase, and in which month?', a:'Amavasya (new moon) in Kartik', note:'Both parts are needed. Accept Kartika or Karttika for the month.', source:'https://www.delhitourism.gov.in/dt/festivals/diwali.html'}
+  {id:"diwali", name:"Diwali & Festivals", subtitle:"Lights, legends & laddoos", icon:"diya", questions:[
+    {"q":"Which goddess is worshipped for wealth and prosperity during Diwali?","a":"Lakshmi","note":"Accept Lakshmi, Laxmi or Goddess Lakshmi."},
+    {"q":"What is the traditional name for the colourful decorative patterns made on floors during Diwali?","a":"Rangoli","note":"Accept rangoli. Regional equivalents such as kolam or alpana are also acceptable."},
+    {"q":"Which festival traditionally begins the five-day Diwali celebrations?","a":"Dhanteras","note":"Accept Dhanteras or Dhanatrayodashi.","source":"https://www.incredibleindia.gov.in/en/festivals-and-events/diwali"},
+    {"q":"For Jains, Diwali commemorates the nirvana of which spiritual teacher?","a":"Lord Mahavira","note":"Accept Mahavira, Mahavir or Lord Mahavir.","source":"https://www.indianheritage.gov.sg/en/-/media/ihc2023/education/downloadable-resources/pdf/deepavali-resources-for-primary-school-final.pdf"},
+    {"q":"What does the Sanskrit word Deepavali literally mean?","a":"A row of lamps","note":"Accept a row, line or series of lamps or lights. The general phrase “festival of lights” alone is not the literal meaning."},
+    {"q":"In the North Indian Hindu calendar tradition, Diwali falls in which month and on which lunar phase?","a":"Kartik — Amavasya (new moon)","note":"Both are required. Accept Kartika or Karttika, and new moon, no-moon night or Amavasya.","source":"https://www.delhitourism.gov.in/dt/festivals/diwali.html"}
   ]},
-  {id:'runnerups', name:'Runner Ups', subtitle:'Second place. Main character.', icon:'medal', questions:[
-    {q:'Neil Armstrong took the first steps. Who was the second person to walk on the Moon?', a:'Buzz Aldrin', note:'Accept Edwin Aldrin. Both walked on the Moon during Apollo 11 in 1969.', source:'https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.crew.html'},
-    {q:'Australia won the 2023 ICC Men’s ODI Cricket World Cup. Which team finished as runners-up?', a:'India', note:'Australia beat India in the final in Ahmedabad.', source:'https://www.icc-cricket.com/news/awesome-australia-beat-india-to-win-the-icc-mens-cricket-world-cup'},
-    {q:'Argentina lifted the trophy in 2022. Which country finished second in that men’s FIFA World Cup?', a:'France', note:'The final finished 3–3 after extra time; Argentina won the penalty shoot-out.', source:'https://www.uefa.com/news/0274-14ce5c537085-08c45b3067c4-1000--world-cup-results/'},
-    {q:'Usain Bolt won the men’s 100 metres at London 2012. Which Jamaican sprinter took silver?', a:'Yohan Blake', note:'Blake ran 9.75 seconds in the final.', source:'https://worldathletics.org/results/olympic-games/2012/the-xxx-olympic-games-6999193/men/100-metres/final/result'},
-    {q:'Yuri Gagarin was the first human to orbit Earth. Who was the second?', a:'Gherman Titov', note:'Accept German Titov. His Vostok 2 mission orbited Earth in August 1961. Alan Shepard’s earlier flight was suborbital.', source:'https://www.nasa.gov/wp-content/uploads/2015/04/636007main_rocketspeoplevolume3-ebook.pdf'},
-    {q:'Roald Amundsen’s party reached the South Pole first. Which British explorer led the second party to reach it, in January 1912?', a:'Robert Falcon Scott', note:'Accept Robert Scott or Captain Scott. The question asks for the leader of the second expedition, rather than the second individual.', source:'https://www.southpole.aq/activities/historic.html'}
+  {id:"runnerups", name:"Runner Ups", subtitle:"Second place. Main character.", icon:"medal", questions:[
+    {"q":"Who was the second person to walk on the Moon?","a":"Buzz Aldrin","note":"Accept Buzz Aldrin or Edwin Aldrin. He walked on the Moon during Apollo 11 in 1969.","source":"https://nasa.gov/wp-content/uploads/static/history/alsj/a11/a11.crew.html"},
+    {"q":"Who was the second Indian to win an individual Olympic gold medal?","a":"Neeraj Chopra","note":"He won the men’s javelin at the Tokyo 2020 Games, held in 2021.","source":"https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1743629"},
+    {"q":"Which country finished as runner-up in the 2018 men’s FIFA World Cup?","a":"Croatia","note":"Accept Croatia."},
+    {"q":"Which team finished as runner-up in the 2016 Indian Premier League?","a":"Royal Challengers Bangalore","note":"Accept RCB or Royal Challengers Bengaluru; the franchise used Bangalore in its name in 2016.","source":"https://www.iplt20.com/news/article/match-report-final-rcb-vs-srh"},
+    {"q":"Who finished runner-up in the 2021 Formula 1 World Drivers’ Championship, and which team did he drive for?","a":"Lewis Hamilton — Mercedes","note":"Both are required. Accept Hamilton, and Mercedes or Mercedes-AMG.","source":"https://www.formula1.com/en/results/2021/drivers"},
+    {"q":"Who was the runner-up in the 2019 Wimbledon men’s singles final, and which country did he represent?","a":"Roger Federer — Switzerland","note":"Both are required. Accept Federer for the player.","source":"https://www.wimbledon.com/pdf/Compendium_2021.pdf"}
   ]},
-  {id:'trivia', name:'Trivia', subtitle:'Chronically curious energy', icon:'spark', questions:[
-    {q:'Every December, everyone suddenly becomes a music critic. What is Spotify’s annual personalised listening recap called?', a:'Spotify Wrapped', note:'Accept Wrapped.'},
-    {q:'In Stranger Things, what is the name of the dark alternate dimension connected to Hawkins?', a:'The Upside Down', note:'No bonus points for the dramatic voice.'},
-    {q:'What fictional metal powers Wakanda’s technology and is used in Black Panther’s suit?', a:'Vibranium', note:'Adamantium is associated with Wolverine and is not the answer.'},
-    {q:'Your charger says USB. What do those three letters actually stand for?', a:'Universal Serial Bus', note:'All three words are needed.'},
-    {q:'Before it became Minecraft, what was the game’s original working title?', a:'Cave Game', note:'Markus Persson used the working title Cave Game during early development.', source:'https://www.minecraft.net/en-us/article/the-future-of-minecrafts-development'},
-    {q:'Before Google was Google, what was Larry Page and Sergey Brin’s early search engine called?', a:'BackRub', note:'It referred to the analysis of backlinks. Accept Back Rub.', source:'https://about.google/company-info/our-story/'}
+  {id:"trivia", name:"Trivia", subtitle:"Chronically curious energy", icon:"spark", questions:[
+    {"q":"In Minecraft, which mob explodes when it approaches a player?","a":"Creeper","note":"Accept creeper. A charged creeper is also acceptable."},
+    {"q":"What is the name of Manchester United’s home stadium?","a":"Old Trafford","note":"Accept Old Trafford. The nickname “The Theatre of Dreams” is also acceptable.","source":"https://www.manutd.com/en/visit-old-trafford"},
+    {"q":"In Zindagi Na Milegi Dobara, which country do the three friends travel through?","a":"Spain","note":"Accept Spain.","source":"https://www.excelmovies.com/films/zindagi-na-mile-dobara/"},
+    {"q":"In 3 Idiots, what is Rancho’s real name?","a":"Phunsukh Wangdu","note":"Accept Phunsukh Wangdu, Phunsuk Wangdu or a clearly recognisable pronunciation. Do not require exact spelling."},
+    {"q":"Which three trophies did Manchester United win in their 1998–99 treble season?","a":"Premier League, FA Cup and UEFA Champions League","note":"All three are required. Accept the English league title for Premier League and Champions League or European Cup for UEFA Champions League. Order does not matter.","source":"https://www.manutd.com/en/news/juan-mata-reflects-on-man-united-treble-success"},
+    {"q":"Name all six Infinity Stones in the Marvel films.","a":"Space, Mind, Reality, Power, Time and Soul","note":"All six are required. Order does not matter. Colours alone do not identify the stones.","source":"https://www.marvel.com/comics/discover/958/infinity-stones"}
   ]},
-  {id:'quotes', name:'Who Said This?', subtitle:'Iconic words. Iconic people.', icon:'quote', questions:[
-    {q:'“How you doin’?”\n\nWhich Friends character made this their signature line?', a:'Joey Tribbiani', note:'Accept Joey. Actor: Matt LeBlanc.'},
-    {q:'“We were on a break!”\n\nWhich Friends character keeps making this defence?', a:'Ross Geller', note:'Accept Ross. Actor: David Schwimmer.'},
-    {q:'“You’re fired!”\n\nWhich businessman made this his catchphrase while hosting The Apprentice?', a:'Donald Trump', note:'Accept Trump. This asks about the original US host.'},
-    {q:'“I’mma let you finish…”\n\nWho interrupted Taylor Swift with these words at the 2009 MTV Video Music Awards?', a:'Kanye West', note:'Accept Kanye or Ye. He interrupted her Best Female Video acceptance speech.'},
-    {q:'“I’m not superstitious, but I am a little stitious.”\n\nName the character and the TV show.', a:'Michael Scott — The Office', note:'Both the character and the show are needed. Actor: Steve Carell; the US version of The Office.'},
-    {q:'“I am the one who knocks!”\n\nGive the character’s full name and the TV show.', a:'Walter White — Breaking Bad', note:'Both the full character name and the show are needed. Accept Heisenberg as an alternative character name. Actor: Bryan Cranston.'}
+  {id:"quotes", name:"Who Said This?", subtitle:"Iconic words. Iconic people.", icon:"quote", questions:[
+    {"q":"“Bade bade deshon mein aisi chhoti chhoti baatein hoti rehti hain, Senorita.”\n\nName the actor who says this.","a":"Shah Rukh Khan","note":"Accept Shah Rukh Khan, Shahrukh Khan or SRK. He plays Raj in Dilwale Dulhania Le Jayenge.","source":"https://www.youtube.com/watch?v=lfuAN-o6H0Q"},
+    {"q":"“A guy opens his door and gets shot, and you think that of me? No. I am the one who knocks!”\n\nName the character.","a":"Walter White","note":"Accept Walter White, Walter or Heisenberg. The character is from Breaking Bad; the series name is not required at this value."},
+    {"q":"“I’m not great at the advice. Can I interest you in a sarcastic comment?”\n\nName the character and the series.","a":"Chandler Bing — Friends","note":"Both the character and series are required. Accept Chandler for the character."},
+    {"q":"“I knew exactly what to do. But in a much more real sense, I had no idea what to do.”\n\nName the character and the series.","a":"Michael Scott — The Office","note":"Both are required. Accept Michael. This refers to the US version of the series."},
+    {"q":"“I could stand in the middle of Fifth Avenue and shoot somebody, and I wouldn’t lose any voters.”\n\nWho said this?","a":"Donald Trump","note":"Accept Donald Trump or Trump. The line was spoken at a campaign rally in January 2016.","source":"https://www.realclearpolitics.com/video/2016/01/23/trump_i_could_stand_in_the_middle_of_fifth_avenue_and_shoot_somebody_and_i_wouldnt_lose_any_voters.html"},
+    {"q":"“Every time someone steps up and says who they are, the world becomes a better, more interesting place.”\n\nName the speaker, the series and the character being addressed.","a":"Captain Raymond Holt — Brooklyn Nine-Nine — Rosa Diaz","note":"All three are required. Accept Captain Holt, Raymond Holt or Holt; Brooklyn Nine-Nine or B99; and Rosa or Rosa Diaz. The exchange takes place in the episode Game Night.","source":"https://theninenine.com/quotes/episode/510/Game-Night/"}
   ]}
 ];
-CATEGORIES.forEach(category => category.questions.forEach((question, i) => { question.id = `${category.id}-${VALUES[i]}`; question.value = VALUES[i]; question.category = category.id; }));
-if (typeof module !== 'undefined') module.exports = {VALUES, CATEGORIES};
+CATEGORIES.forEach(category => category.questions.forEach((question, i) => { question.id = `${category.id}-${VALUES[i]}`; question.value = VALUES[i]; question.difficulty = DIFFICULTIES[i]; question.category = category.id; }));
+if (typeof module !== 'undefined') module.exports = {QUESTION_SET, VALUES, DIFFICULTIES, CATEGORIES};

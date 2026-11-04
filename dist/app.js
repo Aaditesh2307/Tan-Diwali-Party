@@ -1,18 +1,27 @@
 'use strict';
-const STORAGE_KEY = 'diwali-showdown-v1';
+const STORAGE_KEY = 'diwali-showdown-challenge-v2';
+const THEME_KEY = 'diwali-showdown-theme';
 const DEFAULT_NAMES = ['Team Patakha', 'Team Phuljhadi'];
 const allQuestions = CATEGORIES.flatMap(c => c.questions);
 const byId = new Map(allQuestions.map(q => [q.id,q]));
 const $ = id => document.getElementById(id);
 const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => Number(value).toLocaleString('en-IN');
-const newState = (names = DEFAULT_NAMES) => ({version:1, names:[...names], turn:0, history:[], active:null, revealed:false});
+const newState = (names = DEFAULT_NAMES) => ({version:2, questionSet:QUESTION_SET, names:[...names], turn:0, history:[], active:null, revealed:false});
 function validState(s) {
-  return s && s.version === 1 && Array.isArray(s.names) && s.names.length === 2 && s.names.every(n => typeof n === 'string' && n.trim() && n.length <= 26) && [0,1].includes(s.turn) && Array.isArray(s.history) && s.history.length <= 30 && new Set(s.history.map(h=>h.id)).size === s.history.length && s.history.every(h=>byId.has(h.id) && [0,1].includes(h.team) && typeof h.correct === 'boolean' && [0,1].includes(h.previousTurn)) && (s.active === null || (byId.has(s.active) && !s.history.some(h=>h.id === s.active))) && typeof s.revealed === 'boolean';
+  return s && s.version === 2 && s.questionSet === QUESTION_SET && Array.isArray(s.names) && s.names.length === 2 && s.names.every(n => typeof n === 'string' && n.trim() && n.length <= 26) && [0,1].includes(s.turn) && Array.isArray(s.history) && s.history.length <= 30 && new Set(s.history.map(h=>h.id)).size === s.history.length && s.history.every(h=>byId.has(h.id) && [0,1].includes(h.team) && typeof h.correct === 'boolean' && [0,1].includes(h.previousTurn)) && (s.active === null || (byId.has(s.active) && !s.history.some(h=>h.id === s.active))) && typeof s.revealed === 'boolean';
 }
 let state = newState();
 let storageAvailable = true;
-try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if(validState(saved)) state = saved; } catch { /* A fresh game also recovers from malformed browser data. */ }
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if(validState(saved)) state = saved;
+  else {
+    // New questions start a fresh board; retain names from the earlier question set.
+    const previous = saved || JSON.parse(localStorage.getItem('diwali-showdown-v1'));
+    if (Array.isArray(previous?.names) && previous.names.length === 2 && previous.names.every(n => typeof n === 'string' && n.trim() && n.length <= 26)) state = newState(previous.names);
+  }
+} catch { /* A fresh game also recovers from malformed browser data. */ }
 let seconds = 30, interval = null, deadline = null, toastTimeout;
 let lastOpenedTile = null;
 const icons = {
@@ -84,6 +93,20 @@ $('undo-btn').onclick=undo;
 $('question-dialog').addEventListener('cancel',e=>{e.preventDefault();cancelQuestion();});
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
 document.querySelectorAll('dialog:not(#question-dialog)').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom)d.close();}}));
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  document.querySelector('meta[name="theme-color"]').content = dark ? '#171a19' : '#faf6ef';
+  $('theme-btn').setAttribute('aria-pressed', String(dark));
+  $('theme-btn').setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} mode`);
+  $('theme-btn').title = `Switch to ${dark ? 'light' : 'dark'} mode`;
+}
+$('theme-btn').onclick=()=>{
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
+  try { localStorage.setItem(THEME_KEY, theme); } catch { /* The current session can still switch themes. */ }
+};
+applyTheme(document.documentElement.dataset.theme || 'dark');
 $('help-btn').onclick=()=>$('help-dialog').showModal();
 $('settings-btn').onclick=()=>{for(let i=0;i<2;i++){$(`name-input-${i}`).value=state.names[i];$('turn-select').options[i].textContent=state.names[i];}$('turn-select').value=state.turn;$('settings-dialog').showModal();};
 $('settings-form').onsubmit=e=>{e.preventDefault();const names=[$('name-input-0').value.trim(),$('name-input-1').value.trim()];if(names.some(n=>!n)){notify('Give both teams a name first.');return;}if(names[0].toLowerCase()===names[1].toLowerCase()){notify('Choose different names so everyone knows whose turn it is.');return;}state.names=names;state.turn=Number($('turn-select').value);save();render();$('settings-dialog').close();notify('Teams are ready. Let’s play!');};
@@ -92,6 +115,6 @@ $('confirm-reset').onclick=()=>{stopTimer();state=newState(state.names);seconds=
 $('fullscreen-btn').onclick=async()=>{try{if(document.fullscreenElement){await document.exitFullscreen();}else{await document.documentElement.requestFullscreen();}}catch{notify('Fullscreen isn’t available here. Open the site in your browser to use it.');}};
 document.addEventListener('fullscreenchange',()=>{$('fullscreen-btn').setAttribute('aria-label',document.fullscreenElement?'Exit fullscreen':'Enter fullscreen');});
 // Keep another tab in this browser in sync; each browser/device has its own game.
-window.addEventListener('storage',e=>{if(e.key!==STORAGE_KEY || !e.newValue)return;try{const next=JSON.parse(e.newValue);if(!validState(next))return;stopTimer();state=next;render();if(state.active){seconds=30;renderQuestion();if(!$('question-dialog').open)$('question-dialog').showModal();}else if($('question-dialog').open)$('question-dialog').close();}catch{}});
+window.addEventListener('storage',e=>{if(e.key===THEME_KEY && ['dark','light'].includes(e.newValue)){applyTheme(e.newValue);return;}if(e.key!==STORAGE_KEY || !e.newValue)return;try{const next=JSON.parse(e.newValue);if(!validState(next))return;stopTimer();state=next;render();if(state.active){seconds=30;renderQuestion();if(!$('question-dialog').open)$('question-dialog').showModal();}else if($('question-dialog').open)$('question-dialog').close();}catch{}});
 render();save();
 if(state.active){lastOpenedTile=state.active;renderQuestion();$('question-dialog').showModal();}
