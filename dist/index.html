@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf6ef">
+  <meta name="description" content="Two teams. Thirty mystery questions. One unforgettable Diwali quiz night.">
+  <title>The Diwali Showdown · Quiz Night</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./questions.js" defer></script><script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="top-rule"></div>
+  <header class="site-header wrap">
+    <a href="./" class="brand" aria-label="The Diwali Showdown home"><span class="brand-mark" aria-hidden="true">✳</span><span>THE DIWALI<br><strong>SHOWDOWN</strong></span></a>
+    <span class="header-note">GOOD COMPANY. GREAT COMPETITION.</span>
+    <nav aria-label="Host controls"><span class="host-badge"><span></span> HOST MODE</span><button id="help-btn" class="icon-btn" aria-label="How to play" title="How to play">?</button><button id="fullscreen-btn" class="icon-btn" aria-label="Enter fullscreen" title="Fullscreen">⛶</button><button id="settings-btn" class="icon-btn" aria-label="Game settings" title="Game settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M9 4v6m6 4v6"/></svg></button></nav>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow"><span class="small-star">✧</span> THE FESTIVAL OF LIGHTS, CAMERA, QUIZ!</p><h1 id="page-title">A little knowledge.<br><em>A lot of bragging rights.</em></h1><p class="intro-copy">Two teams. Thirty questions. One very competitive Diwali.</p></div>
+      <div class="festival-art" aria-hidden="true"><span class="art-star star-one">✧</span><span class="art-star star-two">✳</span><svg viewBox="0 0 280 175"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M45 119c40 8 126 8 170 0-9 34-31 46-85 46s-77-12-85-46Z" fill="#e7a36f"/><ellipse cx="130" cy="118" rx="85" ry="13" fill="#f5c89b"/><path d="M129 117c-28-21-27-50 4-78-7 26 29 39 12 65-4 7-10 11-16 13Z" fill="#df6a3b"/><path d="M130 117c-12-15-5-28 4-40-2 13 15 24-4 40Z" fill="#ffdf99"/><path d="M75 135c26 11 86 11 111 0M99 148c18 4 44 4 62 0"/><path d="M232 63v24m-12-12h24m-21-9 18 18m0-18-18 18M60 43v14m-7-7h14M197 24v14m-7-7h14" stroke="#a85b3c"/></g></svg><span class="art-caption">LET THE GOOD TIMES GLOW.</span></div>
+    </section>
+
+    <section class="scoreboard" aria-label="Live scoreboard">
+      <article class="team-card team-a" id="team-card-0"><div class="team-symbol" aria-hidden="true">☀</div><div class="team-info"><span class="micro-label">TEAM 01</span><h2 id="team-name-0">Team Patakha</h2><span class="team-stat" id="team-stat-0">Ready to make some noise</span></div><div class="team-score"><span class="score-currency">₹</span><span id="score-0">0</span></div><span class="turn-tag" id="turn-tag-0">YOUR TURN <span>↗</span></span></article>
+      <div class="versus"><span>LET’S<br>PLAY</span><strong>VS</strong><span class="versus-star">✧</span></div>
+      <article class="team-card team-b" id="team-card-1"><div class="team-symbol" aria-hidden="true">✴</div><div class="team-info"><span class="micro-label">TEAM 02</span><h2 id="team-name-1">Team Phuljhadi</h2><span class="team-stat" id="team-stat-1">A little spark goes a long way</span></div><div class="team-score"><span class="score-currency">₹</span><span id="score-1">0</span></div><span class="turn-tag" id="turn-tag-1" hidden>YOUR TURN <span>↗</span></span></article>
+    </section>
+
+    <section class="game-board" aria-labelledby="board-title">
+      <div class="board-toolbar"><div><span class="live-dot"></span><h2 id="board-title"><span id="current-team">Team Patakha</span>, pick your prize.</h2></div><span class="board-count"><strong id="done-count">0</strong> / 30 played</span></div>
+      <div id="board-grid" class="board-grid" aria-label="Question prize board"></div>
+      <div class="board-bottom"><span><span class="legend-dot available"></span> Up for grabs <span class="legend-dot completed"></span> Played</span><span class="difficulty-note">BIGGER PRIZE. BIGGER BRAIN ENERGY. <span>↗</span></span></div>
+    </section>
+
+    <div class="under-board"><p><span>✧</span> Pick a category & a prize. Answer out loud. Let your host do the rest.</p><button id="undo-btn" class="text-btn" disabled>↶ <span>Undo last turn</span></button></div>
+    <footer><span>MADE FOR A VERY MERRY DIWALI <span class="footer-star">✳</span></span><div><span id="save-status">Progress saved on this device</span><span class="footer-dot">·</span><button id="new-game-btn" class="text-btn">New game ↗</button></div></footer>
+  </main>
+  <dialog id="question-dialog" class="question-dialog"><div id="question-content"></div></dialog>
+  <dialog id="settings-dialog" class="small-dialog"><form id="settings-form"><div class="dialog-top"><span class="eyebrow">THE HOST’S CORNER</span><button type="button" class="close-btn" data-close="settings-dialog" aria-label="Close settings">×</button></div><h2>Make it your night.</h2><p class="muted">Name your teams and choose who picks next.</p><label for="name-input-0">Team 01 <span class="team-color orange"></span></label><input id="name-input-0" maxlength="26" required autocomplete="off"><label for="name-input-1">Team 02 <span class="team-color green"></span></label><input id="name-input-1" maxlength="26" required autocomplete="off"><label for="turn-select">Next turn</label><select id="turn-select"><option value="0">Team 01</option><option value="1">Team 02</option></select><p class="settings-note">Correct = prize added. Wrong = no points lost.<br>Teams alternate after every completed question.</p><button type="submit" class="primary-btn full">Save & return to the board <span>↗</span></button></form></dialog>
+  <dialog id="help-dialog" class="small-dialog"><div class="dialog-top"><span class="eyebrow">A QUICK RUN-THROUGH</span><button class="close-btn" data-close="help-dialog" aria-label="Close instructions">×</button></div><h2>Let the showdown begin.</h2><ol class="rules"><li><strong>Pick your prize.</strong><span>The team whose turn it is chooses any unplayed category and amount.</span></li><li><strong>Say it out loud.</strong><span>The host opens the question. Talk it out and give your answer. No typing needed.</span></li><li><strong>Time for the reveal.</strong><span>The host reveals the answer, then taps Correct or Wrong. The 30-second timer is optional.</span></li><li><strong>Pass the spotlight.</strong><span>A correct answer earns the full prize; a wrong answer earns ₹0. The next team picks either way.</span></li></ol><p class="settings-note">All 30 played? The highest score wins. You can undo a turn if the host makes a mistake. This game saves in this browser; use this screen for everyone to watch.</p><button class="primary-btn full" data-close="help-dialog">Got it. Game on! <span>↗</span></button></dialog>
+  <dialog id="reset-dialog" class="small-dialog"><div class="dialog-top"><span class="eyebrow">A FRESH START</span><button class="close-btn" data-close="reset-dialog" aria-label="Cancel new game">×</button></div><h2>Another round?</h2><p class="muted">This clears both scores and all completed questions. Your team names stay the same. The question set stays the same, too.</p><div class="button-row"><button class="secondary-btn" data-close="reset-dialog">Keep playing</button><button id="confirm-reset" class="primary-btn">Start fresh ↗</button></div></dialog>
+  <dialog id="finish-dialog" class="small-dialog finish-dialog"><div class="dialog-top"><span class="eyebrow">THAT’S A WRAP!</span><button class="close-btn" data-close="finish-dialog" aria-label="Close results">×</button></div><div class="winner-art" aria-hidden="true">✳</div><h2 id="winner-title"></h2><p id="winner-subtitle" class="muted"></p><div id="final-scores"></div><button class="primary-btn full" data-close="finish-dialog">Back to the board ↗</button></dialog>
+  <div id="toast" role="status" class="toast"></div>
+</body>
+</html>
